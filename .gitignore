@@ -60,3 +60,7 @@ docs/_build/
 .venv/
 __pycache__/
 *.sqlite3
+venv/
+__pycache__/
+.DS_Store
+*.pyc
