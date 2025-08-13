@@ -137,6 +137,9 @@ function dealerTurn() {
     checkWinner();
 }
 
+const winSound = new Audio('player_win_sound.wav');
+const loseSound = new Audio('house_win_sound.wav');
+
 function checkWinner() {
     const playerScore = calculateScore(playerCards);
     const dealerScore = calculateScore(dealerCards);
@@ -144,8 +147,10 @@ function checkWinner() {
 
     if (dealerScore > 21 || playerScore > dealerScore) {
         message = 'You Win!';
+        winsSound.play();
     } else if (playerScore < dealerScore) {
         message = 'Dealer Wins!';
+        loseSound.play();
     } else {
         message = 'It\'s a Tie!';
     }
