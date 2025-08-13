@@ -113,19 +113,32 @@ function onHit(){
   if (handValue(player) >= 21) onStand();
 }
 
+const winSound = new Audio('player_win_sound.wav');
+const loseSound = new Audio('house_win_sound.wav');
+
 function onStand(){
   if (gameOver) return;
-  // dealer draws to 17+
   while (handValue(dealer) < 17) drawCard(dealer);
   render();
+
   const ps = handValue(player), ds = handValue(dealer);
   let msg = "";
-  if (ps > 21) msg = "You bust. Dealer wins.";
-  else if (ds > 21) msg = "Dealer busts. You win!";
-  else if (ps > ds) msg = "You win!";
-  else if (ps < ds) msg = "Dealer wins.";
+  let sound = null;
+
+  if (ps > 21) { msg = "You bust. Dealer wins."; sound = loseSound; }
+  else if (ds > 21) { msg = "Dealer busts. You win!"; sound = winSound; }
+  else if (ps > ds) { msg = "You win!"; sound = winSound; }
+  else if (ps < ds) { msg = "Dealer wins."; sound = loseSound; }
   else msg = "Push (tie).";
-  alert(msg);
+
+  if (sound) {
+    sound.play().then(() => {
+      setTimeout(() => alert(msg), 300); // slight delay for natural feel
+    });
+  } else {
+    alert(msg);
+  }
+
   gameOver = true;
 }
 
